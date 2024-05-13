@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+        const { useState } = React;
+
+        function App(){
+
+            let [value , setValue] = useState("")
+            
+            function isValidHEX(value){
+                let str = value
+
+                if (str[0] != '#' && str.length !==0){
+                    return false
+                }
+                return true
+
+            }
+
+
+            return (
+                <>
+                    <input type="text" value={value} onChange={(e) => setValue(e.target.value)}/>
+
+                    <div style={{backgroundColor: value, height:"80px", width:"80px", border:"1px solid black"}}>
+                        {isValidHEX(value) ? null : "Enter valid hex code"}
+                    </div>
+                </>
+            )
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />) ;
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      
+      const { useState } = React;
+
+      const App = () => {
+          const [hobbies, setHobbies] = useState([""]);
+
+          const addHobby = () => {
+              setHobbies([...hobbies, '']);
+          };
+
+          const removeHobby = (index) => {
+              const updatedHobbies = hobbies.filter((ele, i) => i !== index);
+              setHobbies(updatedHobbies);
+          };
+
+          return (
+              <form
+                  onSubmit={(e) => {
+                      e.preventDefault();
+                      console.log(hobbies);
+                  }}
+              >
+                  {hobbies.map((hobby, index) => (
+                      <div key={index}>
+                          <input
+                              type="text"
+                              value={hobby}
+                              onChange={(e) => {
+                                  const newHobbies = [...hobbies];
+                                  newHobbies[index] = e.target.value;
+                                  setHobbies(newHobbies);
+                              }}
+                          />
+                          <button type="button" onClick={() => removeHobby(index)}>
+                              Remove
+                          </button>
+                      </div>
+                  ))}
+
+                  <button type="button" onClick={addHobby}>Add Hobby</button>
+                  <button type="submit">Submit</button>
+              </form>
+          );
+      };
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
