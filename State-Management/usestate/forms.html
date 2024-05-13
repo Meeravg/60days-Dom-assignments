@@ -44,7 +44,7 @@
                                   setHobbies(newHobbies);
                               }}
                           />
-                          <button type="button" onClick={() => removeHobby(index)}>
+                          <button type="button" onClick={() => removeHobby(index)} disabled={hobbies.length === 1}>
                               Remove
                           </button>
                       </div>

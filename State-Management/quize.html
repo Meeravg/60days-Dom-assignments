@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quize</title>
+  </head>
+  <style>
+  </style>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    
+
+    // component function
+    let Quiz = () => {
+        // state declaration
+        const [q1,setQ1] = React.useState("");
+        const [q2,setQ2] = React.useState("");
+        const [q3,setQ3] = React.useState("");
+        const [score,setScore] = React.useState(0);
+        const [flag,setFlag] = React.useState(false);
+
+        // function to check answer
+        let checkAnswer = () => {
+            setFlag(true);
+            if(q1 == "object"){
+                setScore((prev)=>prev+1);
+
+            }
+            if(q2 == "It cannot be reassigned after initialization"){
+                setScore((prev)=>prev+1);
+
+            }
+            if(q3 == "push"){
+                setScore((prev)=>prev+1);
+
+            }
+            else{
+                console.log("wrong answer");
+            }
+
+
+        }
+        // function to reset
+        let reset = () => {
+            setFlag(false);
+            setScore(0);
+            setQ1("");
+            setQ2("");
+            setQ3("");
+        }
+        return (
+            <>
+            {flag ? 
+                <>
+                <h1>Your score is {score}</h1> 
+                <button onClick={reset}>Reset</button>
+                </>
+            
+            :
+            <>
+                <h1>Quiz</h1>
+                <div id="quiz">
+                    <h2>1. What does the typeof operator return when used on an array?</h2>
+                    <select name="" id="" onChange={(e) => setQ1(e.target.value)}>
+                        <option value="">Select an option</option>
+                        <option value="array">array</option>
+                        <option value="object">object</option>
+                        <option value="arrayobject">arrayobject</option>
+                        <option value="undefined">undefined</option>
+                    </select>
+
+                    <h2>2. Which of the following statements about the let keyword is true?</h2>
+                    <select name="" id="" onChange={(e) => setQ2(e.target.value)}>
+                        <option value="">Select an option</option>
+                        <option value="It allows redeclaration of variables within the same scope">It allows redeclaration of variables within the same scope</option>
+                        <option value="It is function-scoped"> It is function-scoped</option> 
+                        <option value="It cannot be reassigned after initialization">It cannot be reassigned after initialization</option>
+                        <option value="It is hoisted to the top of the bloc">It is hoisted to the top of the block</option>
+                    </select>
+
+                    <h2>3. Which method is used to add elements to the end of an array in JavaScript?</h2>
+                    <select name="" id="" onChange={(e) => setQ3(e.target.value)} placeholder="Select an option">
+                        <option value="">Select an option</option>
+                        <option value="push">push</option>
+                        <option value="append">append</option>
+                        <option value="addToEnd">addToEnd</option>
+                        <option value="NaN">NaN</option>
+                    </select>
+
+                    <button onClick={checkAnswer}>Submit</button>
+                </div>
+
+                
+                </>
+            }
+            </>
+        )
+    }
+    // rendering
+    ReactDOM.createRoot(document.getElementById("root")).render(<Quiz />);
+  </script>
+</html>
