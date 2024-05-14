@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <style>
+        .box {
+            /* border: 1px solid black; */
+            width: 400px;
+            margin: auto;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    // Your  code will go here
+
+    function App() {
+        const [inputValue, setInput] = React.useState([{ value: "", status: false }])
+        const [todoFilter, setTodoFilter] = React.useState([])
+        const [flag, setFlag] = React.useState(false)
+
+
+        function handleChange(e, i) {
+            // let arr = [...inputValue]
+            // arr[i].value = e.target.value
+            // setInput(arr)
+            inputValue[i].value = e.target.value
+            setInput([...inputValue])
+            console.log(inputValue)
+        }
+
+        function HandleAddTodo() {
+            setInput([...inputValue, { value: "" }])
+        }
+
+        function handleDelete(i) {
+            let filterData = inputValue.filter((ele, index) => {
+                return index != i
+            })
+            setInput(filterData)
+        }
+
+        function filtereData(e) {
+            setFlag(true)
+            if (e.target.value == "Active") {
+                let filterData = inputValue.filter((ele, index) => {
+                    return ele.status == false
+                })
+                setTodoFilter(filterData)
+            }
+            else if (e.target.value == "Completed") {
+                let filterData = inputValue.filter((ele, index) => {
+                    return ele.status == true
+                })
+                setTodoFilter(filterData)
+            }
+            else {
+                setFlag(false)
+            }
+        }
+        return (
+            <>
+                <br />
+                <br />
+                <div className="box">
+                    <h2 style={{ textAlign: "center" }}>Todo List</h2>
+                    <label for="">Filter: </label>
+
+                    <select name="" id="select" onChange={(e) => filtereData(e)}>
+                        <option value="">All</option>
+                        <option value="Active">Active</option>
+                        <option value="Completed">Completed</option>
+
+                    </select>
+
+                    <br />
+                    <br />
+
+                    {flag ? todoFilter.map((el, i) => {
+                        return (
+                            <>
+                                <h3>Todo : {el.value} ,<span>  status : {el.status ? "Completed" : "Active"}</span></h3>
+
+                            </>
+                        )
+                    })
+                        : null}
+
+
+                    {!flag ? inputValue.map((el, i) => {
+
+                        return (
+                            <div key={i}>
+                                <input value={el.value} onChange={(e) => handleChange(e, i)} name="input" />
+                                <button onClick={HandleAddTodo}> Add Todo</button>
+
+                                <label style={{ marginLeft: "10px" }}>Status: </label>
+                                <input type="checkbox" name="check" onChange={(e) => inputValue[i].status = e.target.checked} />
+
+                                <button onClick={() => handleDelete(i)} disabled={inputValue.length === 1} style={{ marginLeft: "10px" }}> Delete</button>
+                            </div>
+                        )
+                    }) : null}</div>
+            </>
+        )
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+</script>
+
+</html>
