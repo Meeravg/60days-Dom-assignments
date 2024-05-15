@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <style>
+    #card{
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+      height: 300px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  </style>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    // created a UserProfile component
+    let UserProfile = ({userdata}) => {
+        
+            const {avatar,first_name,last_name,email} = userdata
+        return (
+            <>
+            <div id ="card">
+                <img src={avatar} alt="profile"/>
+                <h1>{first_name} {last_name}</h1>
+                <h3>{email}</h3>
+            </div>
+            </>
+
+        )
+    }
+ 
+    let App = () => {
+   
+        const [user,setUser] = React.useState([])
+        const [search,setSearch] = React.useState("")
+
+        // using useEffect to fetch the data 
+        React.useEffect(() => {
+            getUser()
+        },[])
+      
+        let getUser = async() => {
+            let response = await axios.get('https://reqres.in/api/users')
+            setUser(response.data.data);
+        }
+        // created a search function
+        let searchUser = (e) => {
+            setSearch(e.target.value)
+        }
+        // created a variable to filter the data
+        let data = user.filter((item) => item.first_name.toLowerCase().includes(search.toLowerCase()))
+        return (
+            <>
+                <input type="text" value={search} onChange={(e)=>searchUser(e)} placeholder="Search..."/>
+          
+                {data.map((item,i)=> <UserProfile key={i} userdata={item} />)}
+            </>
+        )
+    }
+ 
+    ReactDOM.createRoot( document.getElementById('root')).render(<App />)
+  </script>
+</html>

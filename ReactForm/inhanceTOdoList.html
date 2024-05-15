@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <style>
+        .todo-cont{
+            /* border: 1px solid red; */
+            width: 40%;
+            margin: auto;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+
+        .todo-item button {
+            margin-left: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .todo-item button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState } = React;
+
+        function TodoList() {
+            const [todos, setTodos] = useState([]);
+            const [newTodo, setNewTodo] = useState("");
+
+            const handleAddTodo = (e) => {
+                e.preventDefault();
+                if (newTodo !== "") {
+                    setTodos([...todos, { text: newTodo, completed: false }]);
+                    setNewTodo("");
+                }
+            
+            };
+
+            const handleDeleteTodo = (index) => {
+                const updatedTodos = todos.filter((el, i) => i !== index);
+                setTodos(updatedTodos);
+            };
+
+            const handleToggleComplete = (index) => {
+                const updatedTodos = [...todos];
+                updatedTodos[index].completed = !updatedTodos[index].completed;
+                setTodos(updatedTodos);
+            };
+
+            return (
+                <div>
+                    <h1> Add Todo </h1>
+                    <form onSubmit={handleAddTodo}>
+                        <input
+                            type="text"
+                            value={newTodo}
+                            onChange={(e) => setNewTodo(e.target.value)}
+                            placeholder="Add a todo"
+                        />
+                        <button type="submit">Add</button>
+                    </form>
+                    <ul>
+                        <div className="todo-cont">
+                            <h1 style={{ textAlign: "center" }}>Todo List</h1>
+                            {todos.map((todo, index) => (
+                                <li key={index} className={"todo-item "}>
+                                    <span>{todo.text}</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={todo.completed}
+                                        onChange={() => handleToggleComplete(index)}
+                                    />
+                                    <button onClick={() => handleDeleteTodo(index)}>Delete</button>
+                                </li>
+                            ))}
+                        </div>
+                    </ul>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <TodoList />
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
