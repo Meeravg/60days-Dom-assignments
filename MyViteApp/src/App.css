@@ -1,0 +1,22 @@
+.todo-cont{
+    /* border: 1px solid red; */
+    width: 40%;
+    margin: auto;
+}
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+
+
+.todo-item button {
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
